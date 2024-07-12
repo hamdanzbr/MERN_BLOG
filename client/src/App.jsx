@@ -7,6 +7,7 @@ import Signnin from './pages/Signnin'
 import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import Header from './components/Header'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
     <Route path='/projects' element={<Projects/>} ></Route>
 
    </Routes>
+   <Footer/>
    </BrowserRouter>
   )
 }
