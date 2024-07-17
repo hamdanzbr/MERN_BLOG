@@ -1,13 +1,15 @@
-import { Button } from 'flowbite-react';
+import { Avatar, Button, Dropdown } from 'flowbite-react';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+
 
 function Header() {
   const location = useLocation();
   const { pathname } = location;
-
+  const {currentUser}=useSelector(state=>state.user)
   return (
     <div className="navbar bg-gray-600">
       <div className="navbar-start">
@@ -29,7 +31,7 @@ function Header() {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-            <li><Link to={'/'} className={`hover:bg-yellow-700 ${pathname === '/' ? 'bg-yellow-600' : ''}`}><b>Home</b></Link></li><hr />
+            <li><Link to={'/'} className={`hover:bg-yellow-700 ${pathname  === '/' ? 'bg-yellow-600' : ''}`}><b>Home</b></Link></li><hr />
             <li><Link to={'/about'} className={`hover:bg-yellow-700 ${pathname === '/about' ? 'bg-yellow-600' : ''}`}><b>About</b></Link></li><hr />
             <li><Link to={'/projects'} className={`hover:bg-yellow-700 ${pathname === '/projects' ? 'bg-yellow-600' : ''}`}><b>Projects</b></Link></li><hr />
           </ul>
@@ -73,7 +75,38 @@ function Header() {
         <Button className='items-center justify-center w-12 h-10 text-gray-500 m-2 sm:inline rounded bg-black'>
           <FaMoon className='ml-4 text-white' />
         </Button>
+
+      {currentUser ?(
+        <Dropdown
+          arrwIcon={false}
+          inline
+          label={
+            <Avatar
+            alt='user'
+            img={currentUser.profilePicture}
+           />
+          }
+          
+        >
+          <Dropdown.Header>
+            <span className='bloc text-sm'>@{currentUser.username}</span><br />
+            <span className='bloc text-sm font-medium truncate'>@{currentUser.email}</span>
+
+          </Dropdown.Header>
+          <Link to={'dashboard?tab=profile'}>
+          <Dropdown.Item>Profile</Dropdown.Item>
+          </Link>
+          <Dropdown.Divider/>
+          <Dropdown.Item>Logout</Dropdown.Item>
+        </Dropdown>
+        
+      ):
+      (
         <Link to={'/signin'} className="btn hover:bg-gradient-to-r from-purple-500 to-blue-500"><b>Sign In</b></Link>
+      )
+      }
+
+        
       </div>
     </div>
   );
